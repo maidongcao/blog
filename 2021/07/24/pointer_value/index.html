@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/blog/img/favicon.ico">
+
+    <title>
+        
+        指针和值 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/blog/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/blog/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="/blog/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>maidongcao</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/blog/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E9%92%88"><span class="toc-text">指针</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88"><span class="toc-text">值和指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E6%93%8D%E4%BD%9C"><span class="toc-text">指针操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E7%BB%86%E8%8A%82"><span class="toc-text">指针细节</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88-%E8%B5%8B%E5%80%BC"><span class="toc-text">指针 赋值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%97%E8%80%85%E6%8C%87%E9%92%88%E5%92%8C%E5%80%BC"><span class="toc-text">接受者指针和值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%9E%8B%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-text">实现不可变型结构体</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        指针和值
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2021-07-24 15:51:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/blog/tags/#goland" title="goland">goland</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h1 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h1><h2 id="值和指针"><a href="#值和指针" class="headerlink" title="值和指针"></a>值和指针</h2><p>值的声明直接写类型即可，如int<br>指针的声明需要在类型前加<em>，如</em>int</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">`var v int = 1  // 开辟的一块空间，名字为v, 空间的值为1`</span><br><span class="line">var p *int = &amp;v  // 获取v的地址存到名为p的内存空间，*int 指向int类型的指针</span><br></pre></td></tr></table></figure>
+<p><img src="http://assets.processon.com/chart_image/6016be58e401fd15813cfba8.png?_=1636815032732" alt="&amp;和*的操作关系"></p>
+<h2 id="指针操作"><a href="#指针操作" class="headerlink" title="指针操作"></a>指针操作</h2><ul>
+<li>操作符&amp;(取址符) : 是返回该变量的内存地址</li>
+<li>操作符* (取值符) : 是返回该指针指向的变量的值, 同时也可以进行修改指针指向内存地址的值</li>
+<li><em>取地址操作符&amp;和取值操作符*是一对互补操作符</em>*<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func  TestGetAddAndVal(t *testing.T)  &#123;</span><br><span class="line"></span><br><span class="line">    // 准备一个字符串类型</span><br><span class="line">    var house = &quot;Malibu Point 10880, 90265&quot;</span><br><span class="line"></span><br><span class="line">    // 对字符串取地址, ptr类型为*string</span><br><span class="line">    ptr := &amp;house</span><br><span class="line"></span><br><span class="line">    // 打印ptr的类型</span><br><span class="line">    fmt.Printf(&quot;ptr type: %T\n&quot;, ptr)  // ptr type: *string</span><br><span class="line"></span><br><span class="line">    // 打印ptr的指针地址</span><br><span class="line">    fmt.Printf(&quot;address: %p\n&quot;, ptr) // address: 0xc0420401b0</span><br><span class="line"></span><br><span class="line">    // 对指针进行取值操作</span><br><span class="line">    value := *ptr</span><br><span class="line"></span><br><span class="line">    // 取值后的类型</span><br><span class="line">    fmt.Printf(&quot;value type: %T\n&quot;, value) // value type: string</span><br><span class="line"></span><br><span class="line">    // 指针取值后就是指向变量的值</span><br><span class="line">    fmt.Printf(&quot;value: %s\n&quot;, value) // value: Malibu Point 10880, 90265</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="指针细节"><a href="#指针细节" class="headerlink" title="指针细节"></a>指针细节</h2><h3 id="指针-赋值"><a href="#指针-赋值" class="headerlink" title="指针 赋值"></a>指针 赋值</h3></li>
+</ul>
+<p>go 的函数和接受者都只有值传递方式，不存在引用传递。指针传递也是传递指针的地址<br>以数值交换为例</p>
+<ol>
+<li>使用多重赋值进行值交换<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func swap(a, b int) &#123;</span><br><span class="line">    b, a = a, b</span><br><span class="line">     fmt.Println(b, a)</span><br><span class="line">         fmt.Println(&amp;b, &amp;a) </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    x, y := 1, 2</span><br><span class="line">    swap(x, y)</span><br><span class="line">    fmt.Println(x, y)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>交换指针<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func swap(a, b *int) &#123;</span><br><span class="line">    b, a = a, b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    x, y := 1, 2</span><br><span class="line">    swap(&amp;x, &amp;y)</span><br><span class="line">    fmt.Println(x, y)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="接受者指针和值"><a href="#接受者指针和值" class="headerlink" title="接受者指针和值"></a>接受者指针和值</h2>指针不仅可以作为函数的入参和返回值，也可以作为接受者<br>接收者可以为指针和值，指针会拷贝指针地址给到接收者，值会重新拷贝值给到接收者<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package pointer</span><br><span class="line"></span><br><span class="line">type Project struct &#123;</span><br><span class="line">    Code int</span><br><span class="line">&#125;</span><br><span class="line">func (p Project) printVal() &#123;</span><br><span class="line">    // 拷贝一个新的Project给p，不省内存</span><br><span class="line">    fmt.Printf(&quot;p: type:%T, add:%p\n&quot;, p, &amp;p) // 地址和origin 不一样</span><br><span class="line">&#125;</span><br><span class="line">func (p *Project) printProinter() &#123;</span><br><span class="line">    // 拷贝一个新的地址给p</span><br><span class="line">    fmt.Printf(&quot;p: type:%T, add:%p\n&quot;, p, p) // 地址和origin 一样</span><br><span class="line">&#125;</span><br><span class="line">func TestReceiver(t *testing.T) &#123;</span><br><span class="line">    p := Project&#123;&#125;</span><br><span class="line">    fmt.Printf(&quot;origin p: type:%T, add:%p\n&quot;, p, &amp;p)</span><br><span class="line">    p.printVal()</span><br><span class="line">    p.printProinter()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li> 指针接收者节省内存，，结构体很大时，性能比较好，应用运行通过指针修改变量的场景</li>
+<li>值接收者可以实现每个接收者都是全新的拷贝，可以实现不可变型的变量，提高代码的安全性，但是占用内存比较高</li>
+</ul>
+<h2 id="实现不可变型结构体"><a href="#实现不可变型结构体" class="headerlink" title="实现不可变型结构体"></a>实现不可变型结构体</h2><p>由于go值传递的特性，通过设置接收者的可见性为包内，并且通过值作为接受者进行拷贝新的值来实现不可变。废话不多说，直接上代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 指针 -&gt; 修改原来地址的值</span><br><span class="line">// 值 -&gt; 没法修改原来地址的值</span><br><span class="line">// 不可变型: 值一旦被创建就无法被改变对象,修改通过生成一个新的对象来实现</span><br><span class="line">type Person struct &#123;</span><br><span class="line">    name           string // 包内可见，避免被修改</span><br><span class="line">&#125;</span><br><span class="line">func (p Person) WithName(newname string) Person &#123; // 拷贝新的结构体，返回新的结构体</span><br><span class="line">    p.name = newname</span><br><span class="line">    fmt.Printf(&quot;WithName p&#x27;s add:%p\n&quot;, &amp;p) // 打印地址 0xc000064540</span><br><span class="line">    return p</span><br><span class="line">&#125;</span><br><span class="line">func (p Person) Name() string &#123; // getter</span><br><span class="line">    return p.name</span><br><span class="line">&#125;</span><br><span class="line">// 值接收者实现不可变型</span><br><span class="line">func TestImmutableForm(t *testing.T) &#123;</span><br><span class="line">    me := Person&#123;&#125; // 默认初始化</span><br><span class="line">    fmt.Printf(&quot;me data:%+#v\n&quot;, me.Name())</span><br><span class="line">    fmt.Printf(&quot;add:%p, data:%+#v\n&quot;, &amp;me, me) // 0xc0000644e0</span><br><span class="line">    m2 := me.WithName(&quot;Elliot&quot;)</span><br><span class="line">    m2.Name()</span><br><span class="line">    fmt.Printf(&quot;m2 data:%+#v\n&quot;, m2.Name())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <!-- <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span> -->
+        <!-- Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p> -->
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/blog/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/blog/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
