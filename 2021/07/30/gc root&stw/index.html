@@ -11,7 +11,7 @@
 
     <title>
         
-        
+        根节点和stw - undefined
         
     </title>
 
@@ -57,7 +57,7 @@
     </div>
     <div class="contents" id="nav-content">
         <ul>
-            <li  class=active >
+            <li >
                 <a href="/blog/">
                     <i class="iconfont icon-shouye1"></i>
                     <span>HOME</span>
@@ -92,6 +92,10 @@
         </ul>
     </div>
     
+        <div id="toc" class="toc-article">
+    
+</div>
+    
 </div>
 
 
@@ -116,73 +120,69 @@
     <div class="index-middle">
         <!-- Main Content -->
         
-<div class="post-preview-container" style="min-height: 720px">
-    
-    <div class="post-preview">
-        <div class="post-time">2021-07-30</div>
-        <div class="post-info">
-            <a href="/blog/2021/07/30/gc root&stw/">
-                <h3>
-                    根节点和stw
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/blog/tags/#java" title="java">java</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
+
+
+<div class="post-container">
+    <div class="post-title">
+        根节点和stw
     </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2021-07-26</div>
-        <div class="post-info">
-            <a href="/blog/2021/07/26/redis_durability/">
-                <h3>
-                    redis持久化
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/blog/tags/#redis" title="redis">redis</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2021-07-30 20:32:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/blog/tags/#java" title="java">java</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
     </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2021-07-24</div>
-        <div class="post-info">
-            <a href="/blog/2021/07/24/pointer_value/">
-                <h3>
-                    指针和值
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/blog/tags/#golang" title="golang">golang</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-</div>
-<ul class="pager">
-    
-    
+    <div class="post-content no-indent">
+        <ul>
+<li> gc roots 有哪些？</li>
 </ul>
+<ol>
+<li>全局引用（静态变量或者常量的引用）</li>
+<li>执行上下文（局部变量表或者本地方法栈的变量表）</li>
+<li>跨代引用的对象，老年代对新生代的引用，记录在RSET中。</li>
+</ol>
+<ul>
+<li>什么是stw（stop the world）<br>stw指的是停顿所有的用户线程，然后进行进行可达性分析。</li>
+<li>什么情况下会出现stw</li>
+</ul>
+<ol>
+<li>枚举根节点时 必须stw</li>
+<li>整理内存碎片时 必须进行stw，也就是标记-整理算法必须stw</li>
+</ol>
+<ul>
+<li>可达性分析包含那几部分，哪些部分必须stw。<br>可达性分析可以分为枚举根节点和查找引用链两个步骤。<br>枚举根节点是可达性分析准确性的基础,枚举根节点必须准确，所以必须stw。<br>查找引用链是耗时最长的操作，但是可以和用户线程并发执行，不需要stw。</li>
+<li>rset是什么？<br>rememberset 是一种用于记录从非收集区到收集区的指针集合的数据结构。</li>
+<li>卡表、卡页和remenberset的区别和联系。</li>
+</ul>
+<ol>
+<li>rset记录了非收集区到收集区的指针集合，也就是非收集区到收集区的引用关系。但是具体实现rset是依靠卡表。</li>
+<li>一块内存可以分成若干个卡页，每一个卡页是否存在跨代引用，使用卡表来记录。如果存在跨代引用那么就是dirty。如图所示：<br><img src="http://assets.processon.com/chart_image/61c4bb1c1e085364150a2a38.png" alt="卡表和卡页对应关系"><br>垃圾回收时，只要筛选出卡表中 dirty的元素 即可获取到哪些卡页包含跨代引用，把这些卡页放到gc roots 中进行扫描。</li>
+</ol>
+<ul>
+<li>卡表元素如何维护呢？何时变dirty，谁来把他们变dirty？</li>
+<li>什么是伪共享，卡表是如何解决伪共享问题？<br>cpu的内存是以缓冲行为单位进行传输的，如果缓存行中多个数据频繁修改，会出现大量的缓冲回写，无效化和同步操作，导致效率变低。所以建议书写的代码具有局部性原理。<br>卡表如果每次写操作都更新，那么就会面临伪共享问题。如果在每次将卡表变脏前，先检查卡表是否为脏，只有不为脏的卡表才更新，可以降低伪共享的问题。</li>
+</ul>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
 
     </div>
 </div>
@@ -226,7 +226,7 @@
     // We expose some of the variables needed by the front end
     window.hexo_search_path = "search.json"
     window.hexo_root = "/blog/"
-    window.isPost = false
+    window.isPost = true
 </script>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 
