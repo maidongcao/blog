@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/blog/img/favicon.ico">
+
+    <title>
+        
+        
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/blog/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/blog/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="/blog/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>maidongcao</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/blog/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-text">持久化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RDB%E2%80%93%E5%BF%AB%E7%85%A7%E6%96%87%E4%BB%B6-%E6%81%A2%E5%A4%8D%E6%97%B6%E9%97%B4%E5%BF%AB%E4%BD%86%E4%B8%A2%E5%A4%B1%E6%95%B0%E6%8D%AE%E5%A4%9A"><span class="toc-text">RDB–快照文件(恢复时间快但丢失数据多)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BARDB%E6%96%87%E4%BB%B6%E2%80%93SAVE%E5%92%8CBGSAVE"><span class="toc-text">创建RDB文件–SAVE和BGSAVE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BDRDB%E6%96%87%E4%BB%B6"><span class="toc-text">加载RDB文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RDB%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">RDB的优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOF%E2%80%93%E7%8B%AC%E7%AB%8B%E6%97%A5%E5%BF%97%E6%96%B9%E5%BC%8F"><span class="toc-text">AOF–独立日志方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AOF%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">AOF的工作流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="toc-text">主从复制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PSYNC%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">PSYNC的工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%AF%B9%E8%BF%87%E6%9C%9F%E7%9A%84%E9%94%AE%E7%9A%84%E5%A4%84%E7%90%86"><span class="toc-text">主从复制过程中对过期的键的处理</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2021-12-24 00:34:32</span></span>
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p>title: redis 持久化<br>tags: [redis]<br>categories:</p>
+<ul>
+<li>编程语言<br>date: 2021-07-24 15:51:00<h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2>因为redis是内存数据库，一旦服务器进程退出，那么内存的数据将会销毁。为了保存redis的内存数据，就需要一种将内存落盘的持久化手段，服务器重启后能够加载落盘后的数据来恢复服务器的状态。<br>持久化的方式有RDB[快照]和AOF[日志追加]两种。<h2 id="RDB–快照文件-恢复时间快但丢失数据多"><a href="#RDB–快照文件-恢复时间快但丢失数据多" class="headerlink" title="RDB–快照文件(恢复时间快但丢失数据多)"></a>RDB–快照文件(恢复时间快但丢失数据多)</h2><h3 id="创建RDB文件–SAVE和BGSAVE"><a href="#创建RDB文件–SAVE和BGSAVE" class="headerlink" title="创建RDB文件–SAVE和BGSAVE"></a>创建RDB文件–SAVE和BGSAVE</h3></li>
+</ul>
+<ol>
+<li>为了防止生成RDB过程中，写入的数据干扰RDB的生成。</li>
+</ol>
+<p><strong>SAVE 保存EDB过程会阻塞主进程，BGSAVE通过fork子进程，父进程正常工作。</strong><br>bgsave命令的运作流程，如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[BGSAVE] --&gt;|1| B(父进程)</span><br><span class="line">B --&gt; H(有其他子进程正在执行 直接返回)</span><br><span class="line">B --&gt; |2|C(fork 父进程会阻塞)</span><br><span class="line">C --&gt;|3| D[响应其他命令]</span><br><span class="line">C --&gt;E[子进程]</span><br><span class="line">E --&gt;|4| F[生成RDB默认使用LZF进行压缩]</span><br><span class="line">E --&gt;|5通知父进程| B</span><br></pre></td></tr></table></figure>
+<p>RDB文件可以落盘或者通过网络发生给其他节点进行复制。</p>
+<ul>
+<li>在执行BGSAVE期间，服务器处理SAVE，BGSAVE和REWRITEAOF的命令与平时不同<ol>
+<li>执行BGSAVE期间，执行SAVE和BGSAVE是会被拒绝的。因为父进程和子进程之间存在竞争条件。</li>
+<li>BGSAVE和REWRITEAOF的命令不能同时执行。如果BGSAVE先执行，那么REWRITEAOF会延时。放过来，BGSAVE会被拒绝。<h3 id="加载RDB文件"><a href="#加载RDB文件" class="headerlink" title="加载RDB文件"></a>加载RDB文件</h3>服务器载入文件的流程，如下所示<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[服务器启动] --&gt;B[执行载入程序]</span><br><span class="line">B --&gt; C&#123;已开启AOF持久化功能&#125;</span><br><span class="line">C --&gt;|是| D[载入AOF]</span><br><span class="line">C --&gt;|否| E[载入RDB文件]</span><br></pre></td></tr></table></figure>
+<h3 id="RDB的优缺点"><a href="#RDB的优缺点" class="headerlink" title="RDB的优缺点"></a>RDB的优缺点</h3></li>
+</ol>
+</li>
+<li>优点</li>
+</ul>
+<ol>
+<li> RDB是一个紧凑压缩的二进制文件，代表Redis在某个时间点上的数据快照。非常适用于备份，全量复制等场景。把RDB文件拷贝到远程机器或者文件系统中（如hdfs），用于灾难恢复。</li>
+<li>Redis加载RDB恢复数据远远快于AOF的方式。</li>
+</ol>
+<ul>
+<li>缺点</li>
+</ul>
+<ol>
+<li>RDB方式数据没办法做到实时持久化/秒级持久化。因为bgsave每次运行都要执行fork操作创建子进程，属于重量级操作，频繁执行成本过高。</li>
+<li> RDB文件使用特定二进制格式保存，Redis版本演进过程中有多个格式的RDB版本，存在老版本Redis服务无法兼容新版RDB格式的问题。？？？ 有哪些格式<h2 id="AOF–独立日志方式"><a href="#AOF–独立日志方式" class="headerlink" title="AOF–独立日志方式"></a>AOF–独立日志方式</h2>AOF（append only file）持久化：以独立日志的方式记录每次写命令，重启时再重新执行AOF文件中的命令达到恢复数据的目的。主要解决数据持久化的实时性问题。<h3 id="AOF的工作流程"><a href="#AOF的工作流程" class="headerlink" title="AOF的工作流程"></a>AOF的工作流程</h3>AOF的工作流程操作：命令写入（append）、文件同步（sync）、文件重写（rewrite）、重启加载。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[命令写入] --&gt;|1apend:使用文本协议| B(AOF缓冲区)</span><br><span class="line">B --&gt; |2sync| C[AOF文件]</span><br><span class="line">C --&gt; |重写| C</span><br><span class="line">D[重启] --&gt; |load| C</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>为什么命令写到AOF缓冲区，而不是直接写入到AOF文件?<ol>
+<li>Redis使用单线程响应命令，如果每次写AOF文件命令都直接追加到硬盘，那么性能完全取决于当前硬盘负载。</li>
+<li>写入缓冲区，redis就可以提供多种同步磁盘策略，也就是落盘的方案选择可以有多种。</li>
+</ol>
+</li>
+<li>AOF缓冲区同步策略有哪些？<ol>
+<li>always: 命令写入缓冲区后，立马同步硬盘。</li>
+<li>everysec: 每秒同步一次缓冲区。</li>
+<li>no: 有操作系统策略进行同步。</li>
+</ol>
+</li>
+<li>为什么需要重写？解决了什么问题？<br>AOF是通过保存写命令来记录数据库的状态，但是随着写入的命令增多，文件的体积就会越来越大。AOF文件过大会造成影响redis和宿主机的性能，并且过大的AOF文件还原需要的时间也就越多。重写通过构造某个时刻数据库的状态的写入语句来减少AOF的命令数目，从而实现压缩AOF的目的。</li>
+<li>重写的原理是什么？<br> AOF的重写<strong>不是对旧的AOF文件进行读取、分析或者写入操作，而是通过读取当前数据库的状态来实现的。</strong><br> 假如使用了3条命令分别写入了键为key的， value分别为a b c的list，AOF的重写就是读取当前数据库的状态，重写的命令为1条 写入 key a b c的命令。<br> 总之，首先从数据库读取键现在的值，然后用一条命令去记录键值对，代替之前记录这个键值对的多条命令。</li>
+<li>redis是单线程的，AOF重写如何防止阻塞主进程呢？<br>AOF的重写是后台进行的。<ol>
+<li>发起AOF重写时，会在父进程fork子进程来进行重写，同时创建AOF重写缓冲区。</li>
+<li>重写后的命令会写入AOF重写缓冲区。</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">客户端-&gt;&gt;命令处理器: 发送命令</span><br><span class="line">命令处理器--&gt;&gt;AOF缓冲区: 追加命令</span><br><span class="line">命令处理器--&gt;&gt;AOF重写缓冲区: 追加命令</span><br></pre></td></tr></table></figure>
+<pre><code>3. 新写入的命令，父进程处理后，会同时写入AOF缓冲区和AOF重写缓冲区，防止重写AOF时，导致数据不一致的问题。
+4. 但子进程完成AOF重写后，会向父进程发生信号。
+5. 父进程此时会阻塞客户端的命令，来将重写后的AOF更替成就的AOF.首先将AOF重缓冲区写入新的AOF文件，然后将AOF进行改名并覆盖旧的AOF.
+</code></pre>
+<h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><p>使用A服务器的客户端输入:SLAVEOF B{IP:端口} 那么A就是变成B的从服务器，B的数据也会同步到A中。也就是主服务器B会同步数据给从服务器A。<br>新版的主从复制包括完全重同步和部分重同步，旧版的主从复制只有完全重同步。<br>  <strong>旧版的主从复制，如果网络闪断会进行一次完全的同步，会消耗大量的资源，导致同步时间变长。</strong><br>  完全重同步：主要用于初次进行主从复制或者长时间断联后重新同步。主服务生成RDB文件，同时将启动生成RDB文件后的命令写入缓冲区。RDB生成后发生给从服务器，等RDB被从服务器加载完后，再将缓冲区命令发给从服务器。<br>  部分重同步:主要用于网络闪断的同步恢复。从服务断联后，重新连上到主服务，如果条件允许（数据偏移量相差在一定范围），主服务会把断联期间的数据发生给从服务进行同步。</p>
+<ul>
+<li>完全重同步跟旧版的复制功能几乎一样，如图。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">从服务器-&gt;&gt;主服务器: 发送SYNC</span><br><span class="line">主服务器--&gt;&gt;从服务器: 发送RDB</span><br><span class="line">主服务器--&gt;&gt;从服务器: 发送缓冲区保持的所有命令</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>部分重同步<br>部分重同步主要以3部分组件实现：<pre><code>1. 主服务器和从服务器的复制偏移量，用于检查主从服务器是否一致，从服务器是每秒发生一次心跳给主服务器同步偏移量。
+</code></pre>
+<ol start="2">
+<li>主服务器的复制积压缓冲区（默认为1M），主服务器的每条写命令都会写入复制缓冲区和从服务器。</li>
+<li>服务器的运行ID。</li>
+</ol>
+</li>
+<li>部分重同步实现步骤：    1. 每次主服务器向从服务器发生写命令时，会同步数据偏移量，并把写命令写入复制积压缓冲区。    2. 从服务器断联后，一段时间重新连接上主服务器，会向主服务发生PSYNC并报告自己的数据偏移量。    3. 主服务器收到从服务器的偏移量，计算目前积压缓冲区的偏移能否可以完成从服务器的同步，如果不可以那么就会进行完全同步，如果可以，就把积压缓冲区的命令发送给从服务器。</li>
+</ul>
+<ol start="4">
+<li>从服务同步完数据后，更新偏移量。<h3 id="PSYNC的工作流程"><a href="#PSYNC的工作流程" class="headerlink" title="PSYNC的工作流程"></a>PSYNC的工作流程</h3></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[从服务器接到客户端发来的SLAVEOF命令] --&gt;B&#123;首次复制&#125;</span><br><span class="line">B --&gt; |Y|C[向主服务器发送PSYNC?-1]</span><br><span class="line">B --&gt; |N|D[向主服务器发送PSYNC &lt;RUNID&gt; &lt;OFFSET&gt;]</span><br><span class="line">C --&gt;E[主服务器返回+FULLRESYNC&lt;RUNID&gt;&lt;OFFSET&gt;执行完全重同步]</span><br><span class="line">D --&gt; F&#123;主服务器返回+continue&#125;</span><br><span class="line">F --&gt;|N| E</span><br><span class="line">F --&gt;|Y|G[执行部分重同步] </span><br></pre></td></tr></table></figure>
+
+
+<h3 id="主从复制过程中对过期的键的处理"><a href="#主从复制过程中对过期的键的处理" class="headerlink" title="主从复制过程中对过期的键的处理"></a>主从复制过程中对过期的键的处理</h3><p> 主从服务过程过期键的处理有特别的方式。<strong>注意从服务器是无法自行删除过期键的，必须由主服务器触发，其实从服务器触发了惰性删除也不会执行，这样为了保持主从的一致性</strong>，以下讲述，生成和加载RDB和AOF过程的过期键处理方式。</p>
+<ol>
+<li>生成RDB–子进程进行<ul>
+<li>redis会对数据库的键进行检查，过期键不会生成RDB</li>
+</ul>
+</li>
+<li>载入RDB–是否容忍键检查的时间开销</li>
+</ol>
+<ul>
+<li>如果是主服务加载RDB，那么会对键进行检查，过期键不会加载到RDB。</li>
+<li>如果服务是从服务器，从服务器不管是否RDB是否有过期键，都会加载到武器。</li>
+</ul>
+<ol start="3">
+<li>生成AOF–是否容忍键检查的时间开销</li>
+</ol>
+<ul>
+<li>如果数据库中存在已经过期的键，但是未被惰性或定期删除，那么也会这些过期的键也会生成到AOF文件中。</li>
+<li>如果键被过期了，且触发了删除操作，那么AOF也会追加删除命令。</li>
+</ul>
+<ol start="4">
+<li>AFO重写–子进程进行</li>
+</ol>
+<ul>
+<li> AOF重写会校验过期的键，不会写入到重写的AOF中。<br>总之, 主服务器生成或加载RDB时，会忽略过期的键，因为主服务是通过子进程生成RDB的，由生成方保证数据的最新对redis服务器影响最小，并且主服务加载RDB一般是服务启动时，可以检查键过期，导致等待时间长不会造成功能问题；从服务器为了提高RDB的加载效率，尽快地进行数据同步，例如长时间断联后，进行完成重同步不能等待太久，所有不会对键的过期进行检查，直接加载RDB。生成AOF的频率比极高，不允许频繁检查键是否过期，所有会直接加载数据库的数据。AOF重写是在子进程操作，对父进程影响小，而且是进行优化目录来重写的，所有允许进行检查键是否过期。</li>
+<li>一言蔽之，<strong>复制过程中，是否进行键检查，取决于操作是否在子进程进行， 是否能容忍长时间的检查操作。</strong></li>
+</ul>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <!-- <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span> -->
+        <!-- Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p> -->
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/blog/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/blog/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
