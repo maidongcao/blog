@@ -11,7 +11,7 @@
 
     <title>
         
-        
+        redis 持久化 - undefined
         
     </title>
 
@@ -124,11 +124,17 @@
 
 <div class="post-container">
     <div class="post-title">
-        
+        redis 持久化
     </div>
 
     <div class="post-meta">
-        <span class="attr">Post：<span>2021-12-24 00:34:32</span></span>
+        <span class="attr">Post：<span>2021-07-26 00:51:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/blog/tags/#redis" title="redis">redis</a>
+        <span>/</span>
+        
         
         </span>
         <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
@@ -136,11 +142,8 @@
 </span>
     </div>
     <div class="post-content no-indent">
-        <p>title: redis 持久化<br>tags: [redis]<br>categories:</p>
-<ul>
-<li>redis<br>date: 2021-07-26 00:51:00<h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2>因为redis是内存数据库，一旦服务器进程退出，那么内存的数据将会销毁。为了保存redis的内存数据，就需要一种将内存落盘的持久化手段，服务器重启后能够加载落盘后的数据来恢复服务器的状态。<br>持久化的方式有RDB[快照]和AOF[日志追加]两种。<h2 id="RDB–快照文件-恢复时间快但丢失数据多"><a href="#RDB–快照文件-恢复时间快但丢失数据多" class="headerlink" title="RDB–快照文件(恢复时间快但丢失数据多)"></a>RDB–快照文件(恢复时间快但丢失数据多)</h2><h3 id="创建RDB文件–SAVE和BGSAVE"><a href="#创建RDB文件–SAVE和BGSAVE" class="headerlink" title="创建RDB文件–SAVE和BGSAVE"></a>创建RDB文件–SAVE和BGSAVE</h3></li>
-</ul>
-<ol>
+        <h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><p>因为redis是内存数据库，一旦服务器进程退出，那么内存的数据将会销毁。为了保存redis的内存数据，就需要一种将内存落盘的持久化手段，服务器重启后能够加载落盘后的数据来恢复服务器的状态。<br>持久化的方式有RDB[快照]和AOF[日志追加]两种。</p>
+<h2 id="RDB–快照文件-恢复时间快但丢失数据多"><a href="#RDB–快照文件-恢复时间快但丢失数据多" class="headerlink" title="RDB–快照文件(恢复时间快但丢失数据多)"></a>RDB–快照文件(恢复时间快但丢失数据多)</h2><h3 id="创建RDB文件–SAVE和BGSAVE"><a href="#创建RDB文件–SAVE和BGSAVE" class="headerlink" title="创建RDB文件–SAVE和BGSAVE"></a>创建RDB文件–SAVE和BGSAVE</h3><ol>
 <li>为了防止生成RDB过程中，写入的数据干扰RDB的生成。</li>
 </ol>
 <p><strong>SAVE 保存EDB过程会阻塞主进程，BGSAVE通过fork子进程，父进程正常工作。</strong><br>bgsave命令的运作流程，如下所示。</p>
