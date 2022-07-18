@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/blog/img/favicon.ico">
+
+    <title>
+        
+        二叉树的遍历 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/blog/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/blog/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="/blog/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>maidongcao</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/blog/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        二叉树的遍历
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2020-06-12 08:32:56</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/blog/tags/#数据结构与算法" title="数据结构与算法">数据结构与算法</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <script src="/js/mermaid.full.min.js"></script>
+<p>二叉树的遍历题型:</p>
+<ol>
+<li><a href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal">二叉树的前序遍历</a></li>
+<li><a href="https://leetcode-cn.com/problems/binary-tree-inorder-traversal">二叉树的中序遍历</a></li>
+<li><a href="https://leetcode-cn.com/problems/binary-tree-postorder-traversal">二叉树的后序遍历</a></li>
+<li> <a href="https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/">二叉树的层次遍历</a></li>
+</ol>
+<ul>
+<li><a href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal">二叉树的前序遍历</a><br>  前序遍历的遍历顺序: 遍历根节点-&gt;左子树-&gt;右子树。<br>  遍历过程时间时遍历左右子树，根节点位置为读取数据。<br>  <strong>最左遍历法:</strong> 前序遍历左子树在前，所以遍历是先遍历左子树，由于根节点在左子树前，所以遍历左子树的同时，需要获取节点；直到遍历到左子树的叶节点，再遍历右子树【右子树的遍历也是先遍历完右子树的左子树】。<br>  遍历过程如图所示。<br><img src="https://github.com/hezhuhui/gallery/raw/master/leetcode/preorder.jpg" alt="二叉树的前序遍历"><br>大致过程为:<ol>
+<li>从根节点一直入栈，压到最左侧叶节点，节点压入栈的过程同时获取节点到ans数组。</li>
+<li>到左侧叶子节点后，切换右子树，再重复步骤1。</li>
+<li>直到压到右子树最后一个阶段。</li>
+<li>最后输出的ans即为前序遍历的结果。<br>代码如下:</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> public List&lt;Integer&gt; preorderTraversal(TreeNode root) &#123;</span><br><span class="line">        if(root == null)&#123;</span><br><span class="line">            return new ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;();</span><br><span class="line">        LinkedList&lt;Integer&gt; ans = new LinkedList&lt;&gt;();</span><br><span class="line">        while(!stack.isEmpty() || root != null)&#123;</span><br><span class="line">            //左子树一直入栈，压到左叶子节点为止</span><br><span class="line">while(root != null)&#123;</span><br><span class="line">                stack.push(root); //节点入栈</span><br><span class="line">                ans.add(root.val); //节点写入ans</span><br><span class="line">                root = root.left; // 切换到左子树</span><br><span class="line">            &#125;</span><br><span class="line">//到达左叶子节点，切换到右子树</span><br><span class="line">            root = stack.pop();</span><br><span class="line">            root = root.right;</span><br><span class="line">        &#125;</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://leetcode-cn.com/problems/binary-tree-inorder-traversal">二叉树的中序遍历</a><br>中序遍历的顺序为:左子树-&gt;根节点-&gt;右子树，二叉树搜索树根据使用中序遍历，可以从小到大输出有序数组。<br>中序遍历遍历的数据的方式[最左遍历法]可以与前序遍历的方式一致，但是由于根节点输出位置在左子树之后。所有输出的根节点需要在出栈的过程。即左子树的左叶子最先直接输出。<br>遍历和输出过程如图所示:</li>
+</ul>
+<p><img src="https://github.com/hezhuhui/gallery/raw/master/leetcode/inorder.jpg" alt="二叉树的中序遍历"><br> 注意遍历方式与前序遍历一致，但是输出节点到ans的时机变为出栈时。<br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  public List&lt;Integer&gt; inorderTraversal(TreeNode root) &#123;</span><br><span class="line">         if(root == null)&#123;</span><br><span class="line">            return new ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;();</span><br><span class="line">        List&lt;Integer&gt; ans = new ArrayList&lt;&gt;();</span><br><span class="line">        while(!stack.isEmpty() || root != null)&#123;</span><br><span class="line">            //先将最左压倒底</span><br><span class="line">            while(root != null)&#123;</span><br><span class="line">                stack.push(root);</span><br><span class="line">                root = root.left;</span><br><span class="line">            &#125;</span><br><span class="line">            //切换到右子树</span><br><span class="line">            root = stack.pop();</span><br><span class="line">            ans.add(root.val); //输出答案时机为出栈时</span><br><span class="line">            root = root.right;</span><br><span class="line">        &#125;</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><a href="https://leetcode-cn.com/problems/binary-tree-postorder-traversal">二叉树的后序遍历</a><br>后序遍历的遍历顺序为左子树-&gt;右子树-&gt;根节点，输出结果刚好与前序遍历相反。</li>
+<li><em>最右遍历法:</em>* 根节点需要在右子树之后，也就是可以通过先将右子树的右侧全部入栈，同时逆序排列，即可得到结果。<br>遍历过程如图所示。<br><img src="https://github.com/hezhuhui/gallery/raw/master/leetcode/postorder.jpg" alt="二叉树的后序遍历"><br>图中，先遍历右子树，且遍历过程中将节点输入到数组中，但是最后的结果需要逆序输出。也就是输出的结果为 4 5 2 1 6 2 1[序号的逆序输出]<br>实现代码如下:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> public List&lt;Integer&gt; postorderTraversal(TreeNode root) &#123;</span><br><span class="line">        if(root == null)&#123;</span><br><span class="line">            return new ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;();</span><br><span class="line">        LinkedList&lt;Integer&gt; ans = new LinkedList&lt;&gt;();</span><br><span class="line">        while(!stack.isEmpty() || root != null)&#123;</span><br><span class="line">            //遍历右子树，同时逆序排到输出结果中。</span><br><span class="line">while(root != null)&#123;</span><br><span class="line">                stack.push(root);</span><br><span class="line">                ans.addFirst(root.val);</span><br><span class="line">                root = root.right;</span><br><span class="line">            &#125;</span><br><span class="line">//最右侧节点为叶子节点后，切到左子树</span><br><span class="line">            root = stack.pop();</span><br><span class="line">            root = root.left;</span><br><span class="line">        &#125;</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+综上: 二叉树的前中后遍历可以总结为两种方法，最左和最右遍历法。其中中序遍历同时适用最左和最右遍历法。<br>所以前中后遍历二叉树关键是定义好两点:<br>1、使用的遍历的方法:最左/最右。<br>2、输出节点的时机。<br>3、输出的结果是否需要逆序。<br>通用代码模板如下:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> public List&lt;Integer&gt; inorderTraversal(TreeNode root) &#123;</span><br><span class="line">         //base case</span><br><span class="line">if(root == null)&#123;</span><br><span class="line">            return new ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;();</span><br><span class="line">        List&lt;Integer&gt; ans = new ArrayList&lt;&gt;();</span><br><span class="line">        while(!stack.isEmpty() || root != null)&#123;</span><br><span class="line">            //先将最左/最右压到叶子节点</span><br><span class="line">            while(root != null)&#123;</span><br><span class="line">                stack.push(root);</span><br><span class="line">       //输出时机</span><br><span class="line">       //如果是前序遍历使用最左输出，根节点位于左子树之前，所示先输出节点</span><br><span class="line">       //如果中序遍历适用最左遍历，由于根节点位于左子树之后所以不能输出结果</span><br><span class="line">       //如果后序遍历使用最右遍历，根节点位于右子树之后【理应先输出根节点】，由于逆序输出，变成了根节点可以先与右子树输出，所以此处需要输出节点</span><br><span class="line">                //最左/最右输出，</span><br><span class="line">       //如果是最左输出，需要节点一直为左子树根节点 root = root.left;</span><br><span class="line">       //如果是最右输出，需要节点一直为右子树根节点 root = root.right;</span><br><span class="line">            &#125;</span><br><span class="line">            //切换到右子树</span><br><span class="line">            root = stack.pop();</span><br><span class="line">   //输出时机</span><br><span class="line">   //根节点位于最左/最右之后，在此输出。因为可以形成从叶节点开始输出结果，得到先输出最左/最右的效果</span><br><span class="line">            // ans.add(root.val); //输出答案时机为出栈时</span><br><span class="line">           //切换时机</span><br><span class="line">  //如果是最左，在此切换为右子树；如果是最右，则刚好相反</span><br><span class="line">  root = root.right;</span><br><span class="line">        &#125;</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+<li>层次遍历 <a href="https://leetcode-cn.com/problems/binary-tree-level-order-traversal/submissions/">102</a> <a href="https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/">103</a> <a href="https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/">429</a><br>层次遍历与前中后序遍历不一样，本质上来说层次遍历是一种bfs，前中后遍历是一种dfs。dfs二叉树是往往是后进先出，即出栈一般是叶节点先出栈，再到非叶子节点直到树的根节点。然而bfs不同的是遍历需要从根节点开始，输出也是从根节点开始，所以是先进先出，所以一般使用队列来实现bfs。<br>二叉树的层次遍历代码模板:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public List&lt;List&lt;Integer&gt;&gt; levelOrder(TreeNode root) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; ans = new ArrayList&lt;&gt;();</span><br><span class="line">        if(root == null)&#123;</span><br><span class="line">            return ans;</span><br><span class="line">        &#125;</span><br><span class="line">        Queue&lt;TreeNode&gt; queue = new LinkedList&lt;&gt;();</span><br><span class="line">        queue.offer(root);</span><br><span class="line">        while(!queue.isEmpty())&#123;</span><br><span class="line">            //遍历一层的元素</span><br><span class="line">            List&lt;Integer&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">            int len = queue.size();</span><br><span class="line">            //按层输出</span><br><span class="line">            for(int i = 0; i &lt; len; i++)&#123;</span><br><span class="line">                   // 每一层元素的出队队和入队的方向决定了层次遍历的规则</span><br><span class="line">                   // 如果需要按照Z输出，需要添加判断条件，使得每一层入队和出队在队列的方向是相反的。</span><br><span class="line">                   //同时注意，入队处不能作为出队处，否则会导致下一层的数据提前出队。</span><br><span class="line">                   // 也就是入队和出队在同一处，会导致刚入队的数据[理应是下一层的数据]，就会立马出队，违反了先进先出原则。</span><br><span class="line">                TreeNode node = queue.poll();</span><br><span class="line">                if(node.left != null)&#123;</span><br><span class="line">                    queue.offer(node.left);</span><br><span class="line">                &#125;</span><br><span class="line">                if(node.right != null)&#123;</span><br><span class="line">                    queue.offer(node.right);</span><br><span class="line">                &#125;</span><br><span class="line">                 list.add(node.val);</span><br><span class="line">            &#125;</span><br><span class="line">            ans.add(list);</span><br><span class="line">        &#125;</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+            <script>
+              if (window.mermaid) {
+                mermaid.initialize({theme: 'forest'});
+              }
+        </script>
+        <!-- <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span> -->
+        <!-- Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p> -->
+</footer>
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/blog/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/blog/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>

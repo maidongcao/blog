@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/blog/img/favicon.ico">
+
+    <title>
+        
+        二叉树视图/节点求和问题 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/blog/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/blog/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="/blog/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>maidongcao</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/blog/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E7%B1%BB"><span class="toc-text">问题分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B1%82%E8%A7%A3%E6%8A%80%E5%B7%A7"><span class="toc-text">求解技巧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        二叉树视图/节点求和问题
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2020-05-01 10:14:56</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/blog/tags/#数据结构与算法" title="数据结构与算法">数据结构与算法</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <script src="/js/mermaid.full.min.js"></script>
+<h2 id="问题分类"><a href="#问题分类" class="headerlink" title="问题分类"></a>问题分类</h2><ul>
+<li>左视图/右视图节点问题:求和/列出节点值</li>
+<li>左节点/右叶子节点问题:求和/列出节点值</li>
+<li>俯视图<h2 id="求解技巧"><a href="#求解技巧" class="headerlink" title="求解技巧"></a>求解技巧</h2></li>
+</ul>
+<ol>
+<li>左/右视图问题（以右视图为例：<a href="https://leetcode-cn.com/problems/binary-tree-right-side-view/">二叉树的右视图</a>）</li>
+</ol>
+<ul>
+<li>问题描述: 以右视图为例，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。</li>
+<li>分析：<br><u>本质求二叉树每一层的最右边的节点</u>，可以使用bfs对二叉树进行从左到右层次遍历，取每一层最右边的节点加入列表。</li>
+<li>代码实现<br>通过层次遍历获取每一层数据的通用模板<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">  public T readTree(TreeNode root) &#123;</span><br><span class="line">        // base case</span><br><span class="line">List&lt;Integer&gt; ans = new ArrayList&lt;&gt;();</span><br><span class="line">        if(root == null)&#123;</span><br><span class="line">            return T;</span><br><span class="line">        &#125;</span><br><span class="line">// 定义bfs使用的队列</span><br><span class="line">        Queue&lt;TreeNode&gt; queue = new LinkedList&lt;&gt;();</span><br><span class="line">// 先加入根节点</span><br><span class="line">        queue.offer(root);</span><br><span class="line">        while (!queue.isEmpty())&#123;</span><br><span class="line">    // 求每一层节点的个数</span><br><span class="line">            int size = queue.size();</span><br><span class="line">    // 遍历每一层的节点</span><br><span class="line">            for(int i = 0; i &lt; size; i++)&#123;</span><br><span class="line">                TreeNode tmp = queue.poll();</span><br><span class="line">        /**</span><br><span class="line">        * 此处实现每一层的数据操作</span><br><span class="line">        * 以右视图为例，此处可添加代码</span><br><span class="line">        *  </span><br><span class="line">            // 每一层最右边的节点加入结果集合</span><br><span class="line">           if(i == size - 1)&#123;</span><br><span class="line">                    ans.add(tmp.val);</span><br><span class="line">                &#125;</span><br><span class="line">        **/</span><br><span class="line">        //添加下一层数据到队列，从左往右添加</span><br><span class="line">                if(tmp.left != null)&#123;</span><br><span class="line">                    queue.offer(tmp.left);</span><br><span class="line">                &#125;</span><br><span class="line">                if(tmp.right != null)&#123;</span><br><span class="line">                    queue.offer(tmp.right);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return T;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="2">
+<li>左节点/右叶子节点问题：<a href="https://leetcode-cn.com/problems/sum-of-left-leaves/">左叶子之和</a></li>
+</ol>
+<ul>
+<li>问题描述: 以求左叶子为例，题目要求获取所有左子树的叶子节点之和，不包含非叶子节点。</li>
+<li>分析: 注意与左视图问题区别：问题可以转化为求所有叶子节点中，左叶子之和。如果使用bfs，由于是层次遍历会导致左右子树的属性丢失，所有使用dfs遍历左子树和右子树，同时标记当前遍历处于哪个子树（通过参数标识）。</li>
+<li>代码实现<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class Solution &#123;</span><br><span class="line">    int sum = 0;</span><br><span class="line">    public int sumOfLeftLeaves(TreeNode root) &#123;</span><br><span class="line">        if(root == null) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        if(root.left != null)&#123;</span><br><span class="line">            dfs(root.left,true);</span><br><span class="line">        &#125;</span><br><span class="line">        if(root.right != null)&#123;</span><br><span class="line">            dfs(root.right,false);</span><br><span class="line">        &#125;</span><br><span class="line">        return sum;</span><br><span class="line">    &#125;</span><br><span class="line">    void dfs(TreeNode root,Boolean isLeft)&#123;</span><br><span class="line">        // 该节点为叶子节点并且是左节点</span><br><span class="line">        if(root.left == null &amp;&amp; root.right == null &amp;&amp; isLeft)&#123;</span><br><span class="line">            sum += root.val;</span><br><span class="line">        &#125;</span><br><span class="line">        if(root.left != null)&#123;</span><br><span class="line">            dfs(root.left,true);</span><br><span class="line">        &#125;</span><br><span class="line">        if(root.right != null)&#123;</span><br><span class="line">            dfs(root.right,false);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="3">
+<li>俯视图</li>
+</ol>
+<ul>
+<li>问题描述:想象自身从二叉树的上方俯视二叉树，以根节点为界，列出根节点右侧的节点。</li>
+<li>分析:<ol>
+<li>从俯视图右侧的看到的节点，不一定为右子树节点，因为如果根节点的右子树为null，但是左子树一直往右偏移，可能越过根节点的正下方，从而出现在俯视图的根节点右侧。</li>
+<li>每一层的最右节点不一定为俯视图看到节点，因为如果上层的最右节点挡住了当前层的节点也就看不到当前节点了。</li>
+<li>根据以上分析，关键点：<strong>记录每一个节点相对于root节点的偏移量a，再根据偏移量a与当前结果数组大小比较，判断当前节点偏移量是否大于数组大小，如果大于表示当前节点偏移量不会被遮挡，否则会被遮挡。</strong></li>
+<li>由于偏移量a的获取，需要根据上一层偏移量的大小确定，也就是<strong>依赖纵向关系，所以使用dfs不能使用bfs</strong>。</li>
+</ol>
+</li>
+<li>代码实现<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    List&lt;Integer&gt; ans = new ArrayList&lt;&gt;();</span><br><span class="line">    public List&lt;Integer&gt; rightSideView(TreeNode root) &#123;</span><br><span class="line">        if(root == null)&#123;</span><br><span class="line">            return new ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        ans.add(root.val);</span><br><span class="line">        if(root.left != null)&#123;</span><br><span class="line">            dfs(root.left,  -1);</span><br><span class="line">        &#125;</span><br><span class="line">        if(root.right != null )&#123;</span><br><span class="line">            dfs(root.right,  1);</span><br><span class="line">        &#125;</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">    //index为偏移量，向左偏移量-1，向右+1</span><br><span class="line">    void dfs(TreeNode root, int index)&#123;</span><br><span class="line">    // 当节点不为null，且不阻挡时，加入结果集合</span><br><span class="line">        if(root != null &amp;&amp; index &gt;= ans.size())&#123;</span><br><span class="line">            ans.add(root.val);</span><br><span class="line">        &#125;</span><br><span class="line">        if(root.left != null)&#123;</span><br><span class="line">            dfs(root.left, index - 1);</span><br><span class="line">        &#125;</span><br><span class="line">        if(root.right != null )&#123;</span><br><span class="line">            dfs(root.right, index + 1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2></li>
+</ul>
+<p>1.bfs和dfs遍历二叉树的使用场景:</p>
+<ul>
+<li><strong>如果当前节点的属性依赖上一节点传递，则使用dfs</strong>。如需要依赖上一节点来确定当前节点是左节点/右节点或者节点相对根节点偏移量。</li>
+<li><strong>如果当前节点的属性依赖兄弟节点传递，则使用bfs</strong>。如需要确定当前节点位于该层的位置。</li>
+</ul>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+            <script>
+              if (window.mermaid) {
+                mermaid.initialize({theme: 'forest'});
+              }
+        </script>
+        <!-- <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span> -->
+        <!-- Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p> -->
+</footer>
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/blog/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/blog/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
