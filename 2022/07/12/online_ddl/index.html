@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/blog/img/favicon.ico">
+
+    <title>
+        
+        Mysql Online DDL 详解 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/blog/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/blog/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i>  </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="/blog/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>maidongcao</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/blog/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/blog/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ALTER-TABLE-%E4%BF%AE%E6%94%B9%E8%A1%A8%E7%BB%93%E6%9E%84"><span class="toc-text">ALTER TABLE-修改表结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B0%E5%A2%9E%E5%88%97%E7%9A%84DDL%E4%BC%9A%E9%98%BB%E5%A1%9EDML"><span class="toc-text">新增列的DDL会阻塞DML</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B0%E5%A2%9E%E5%88%97DDL%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">新增列DDL的执行过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#COPY%E5%92%8CINPLACE"><span class="toc-text">COPY和INPLACE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#online-DDL-%E6%89%A7%E8%A1%8C%E6%96%B0%E5%A2%9E%E5%88%97%E8%BF%87%E7%A8%8B"><span class="toc-text">online DDL 执行新增列过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#INPLACE-%E5%88%86%E7%B1%BB"><span class="toc-text">INPLACE 分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%A2%9E%E5%88%97%E7%9A%84Online-DDL%E8%BF%87%E7%A8%8B"><span class="toc-text">新增列的Online DDL过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%94%9FOnline-DDL%E7%9A%84%E5%B1%80%E9%99%90"><span class="toc-text">原生Online DDL的局限</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gh-host%E6%89%A7%E8%A1%8CDDL"><span class="toc-text">gh-host执行DDL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">执行过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cut-over-%E9%98%BB%E5%A1%9E%E8%BF%87%E7%A8%8B"><span class="toc-text">cut-over 阻塞过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-1"><span class="toc-text">总结</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Mysql Online DDL 详解
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2022-07-12 23:32:56</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/blog/tags/#mysql" title="mysql">mysql</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <script src="/js/mermaid.full.min.js"></script>
+
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在和DBA沟通前对alter table 不熟悉，导致沟通不顺畅。从本文可以了解到DDL的执行过程，评估执行DDL对线上的影响。</p>
+<h1 id="ALTER-TABLE-修改表结构"><a href="#ALTER-TABLE-修改表结构" class="headerlink" title="ALTER TABLE-修改表结构"></a><code>ALTER TABLE</code>-修改表结构</h1><p>能够修改shechma的内容如下：</p>
+<ul>
+<li>添加或删除列(columns)</li>
+<li>创建或销毁索引(index)</li>
+<li>改变列的类型(type)</li>
+<li>重命名列或表名</li>
+<li>修改表的存储引擎(storage engine)或者备注(comment)<br>详细：<a href="https://dev.mysql.com/doc/refman/5.7/en/alter-table.html">https://dev.mysql.com/doc/refman/5.7/en/alter-table.html</a></li>
+</ul>
+<h1 id="新增列的DDL会阻塞DML"><a href="#新增列的DDL会阻塞DML" class="headerlink" title="新增列的DDL会阻塞DML"></a>新增列的DDL会阻塞DML</h1><p>列操作的DDL支持的一些行为，其中新增列「Adding a column」是支持In place， rebuild table，「某些条件下」允许并发DML，特别注意新增自增列并不知支持并发DML。因此，add column操作在某些条件下是会阻塞DML。<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-online-ddl-operations.html#online-ddl-column-operations">详细的材料</a><br><img src="https://github.com/maidongcao/img/blob/master/online_ddl/online_ddl_allow_table.png?raw=true" alt="功能表格"></p>
+<ul>
+<li><p>下边做个实验，观察新增列对DML的影响。实验参考：<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-online-ddl-performance.html">https://dev.mysql.com/doc/refman/5.7/en/innodb-online-ddl-performance.html</a></p>
+<ol>
+<li>session1: 创建表，进行事务查后不提交事务，加MDL读锁<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t1 (c1 INT) ENGINE=InnoDB;</span><br><span class="line">mysql&gt; START TRANSACTION;</span><br><span class="line">mysql&gt; SELECT * FROM t1;</span><br></pre></td></tr></table></figure></li>
+<li>session2 ：给表格t1新增列x， 此时DDL会被阻塞，加MDL写锁<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; ALTER TABLE t1 ADD COLUMN x INT, ALGORITHM=INPLACE, LOCK=NONE;</span><br></pre></td></tr></table></figure></li>
+<li>session3 ：查询表格的数据，语句也会被阻塞，加MDL读锁<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT * FROM t1;</span><br></pre></td></tr></table></figure></li>
+<li>session4: 查询当前执行的线程；会看到阻塞的原因<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW FULL PROCESSLIST;</span><br></pre></td></tr></table></figure>
+结果如图：<br><img src="https://github.com/maidongcao/img/blob/master/online_ddl/show_process_result.png?raw=true" alt="执行结果"></li>
+</ol>
+</li>
+<li><p>结论</p>
+<ol>
+<li>MDL写锁触发锁表，导致DDL和DML都会阻塞</li>
+<li>DDL过程中会持有MDL写锁，导致锁表</li>
+<li>DDL的执行时长决定了DML的阻塞时长，如果DDL执行时长，会阻塞后续的DML </li>
+</ol>
+</li>
+</ul>
+<h1 id="新增列DDL的执行过程"><a href="#新增列DDL的执行过程" class="headerlink" title="新增列DDL的执行过程"></a>新增列DDL的执行过程</h1><p>在mysql 5.5 之前新增列「<strong>copy方式：在服务器层执行</strong>」需要锁表并且时间比较长，mysql5.6后 新增列支持<strong>INPLACE方法「存储引擎层执行</strong>」，大幅度缩短了锁表的时</p>
+<h2 id="COPY和INPLACE"><a href="#COPY和INPLACE" class="headerlink" title="COPY和INPLACE"></a>COPY和INPLACE</h2><p>从mysql5.6开始使用online DDL对DDL的执行过程进行了优化，解决了早期版本MysqlDDL操作锁表的问题，能够保证DDL执行过程报纸读写，不影响数据库对外服务。</p>
+<ul>
+<li>5.7之前版本 Mysql执行DDL的主要算法<br>间。</li>
+</ul>
+<ol>
+<li>COPY：</li>
+</ol>
+<ul>
+<li>主要步骤：<ol>
+<li>创建与原表结构定义一致的临时表</li>
+<li>对原表加锁，不允许执行DML，但允许快照读</li>
+<li>在临时表执行DDL语句</li>
+<li>逐行拷贝原表数据到临时表</li>
+<li>原表和临时表进行RENAME操作，此时升级原表上的锁，不允许读写，直至完成RENAME。</li>
+</ol>
+</li>
+<li>总结：<ol>
+<li>需要将数据从原表拷贝到临时表，这个过程颇为耗时</li>
+<li>整个过程大部分时间会锁住原表，导致DDL过程数据表无法提供服务</li>
+</ol>
+</li>
+</ul>
+<ol start="2">
+<li>INPLACE<br>INPLACE「InnoDB fast index creation」5.5之前只限于二级索引的创建和删除。</li>
+</ol>
+<ul>
+<li>主要步骤：<ol>
+<li>创建临时的frm文件；</li>
+<li>对原表加锁，不允许执行DML，但允许查询；</li>
+<li>根据聚集索引的顺序，构造新的索引项，按照顺序插入新索引页；</li>
+<li>升级原表上的锁，不允许读写操作；</li>
+<li>进行RENAME操作，替换原表的frm文件，完成DDL操作；</li>
+</ol>
+</li>
+<li>总结：<ol>
+<li>DDL过程加锁的粒度比较小</li>
+<li>直接操作底层frm文件，不需要新建临时表拷贝数据</li>
+</ol>
+</li>
+</ul>
+<ol start="3">
+<li>COPY和INPLACE的区别<ul>
+<li>COPY需要建立临时表，逐行拷贝数据到临时表，而INPLACE是通过修改底层文件来实现DDL</li>
+<li>INPLACE的持有锁时间更短，对DML的并发性更好些</li>
+</ul>
+</li>
+</ol>
+<h2 id="online-DDL-执行新增列过程"><a href="#online-DDL-执行新增列过程" class="headerlink" title="online DDL 执行新增列过程"></a>online DDL 执行新增列过程</h2><p><strong>由于目前线上使用的mysql 5.7，存储引擎为InnoDb，以下内容都基于这个版本讨论。</strong><br>参考文档：<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-online-ddl.html">https://dev.mysql.com/doc/refman/5.7/en/innodb-online-ddl.html</a></p>
+<p>上一节，我们看到了INPLACE的核心思想是通过操作mysql文件，降低IO操作和锁的粒度来降低MDL对DML的影响。mysql 5.7 的新增列操作也是使用INPLACE实现类似的操作。</p>
+<h3 id="INPLACE-分类"><a href="#INPLACE-分类" class="headerlink" title="INPLACE 分类"></a>INPLACE 分类</h3><table>
+<thead>
+<tr>
+<th>INPLACE执行方式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Rebuilds Table</td>
+<td>行记录格格式的修改，如字段的增、删、类型修改</td>
+</tr>
+<tr>
+<td>No-Rebuilds Table</td>
+<td>不涉及行记录格式的修改，如索引删除、字段名修改</td>
+</tr>
+</tbody></table>
+<h3 id="新增列的Online-DDL过程"><a href="#新增列的Online-DDL过程" class="headerlink" title="新增列的Online DDL过程"></a>新增列的Online DDL过程</h3><p>Online DDL主要有PREPARE(准备)、EXECUTE(执行)和COMMIT(提交)三个阶段，如下：</p>
+<ol>
+<li><p>PREPARE：此过程都是轻量操作，新增frm和ibd文件和一些初始化操作</p>
+<ul>
+<li><pre><code>**创建新的临时frm文件「表结构文件」**；
+</code></pre>
+</li>
+<li><pre><code>**持有EXCLUSIVE-MDL锁，禁止读写操作**；
+</code></pre>
+</li>
+<li><pre><code>根据ALTER类型，确定执行方式(copy,Online-Rebuilds,Online-No-Rebuilds)；
+</code></pre>
+</li>
+<li><pre><code> 更新数据字典的内存对象；
+</code></pre>
+</li>
+<li><pre><code> 分配row_log对象记录增量(Rebuilds需要)；
+</code></pre>
+</li>
+<li>  **生成新的临时ibd文件「数据文件」(Rebuilds需要)**。</li>
+</ul>
+</li>
+<li><p>EXECUTE：</p>
+<ul>
+<li><pre><code>**降级EXCLUSIVE-MDL锁，允许读写**；
+</code></pre>
+</li>
+<li><pre><code>**记录执行期间产生的DML增量到row_log中(Rebuilds需要)**；
+</code></pre>
+</li>
+<li><pre><code>扫描old_table的聚集索引中每一条记录record；
+</code></pre>
+</li>
+<li><pre><code>根据构造新表对应的索引项；
+</code></pre>
+</li>
+<li><pre><code>将构造的索引项插入sort_buffer块中；
+</code></pre>
+</li>
+<li><pre><code>将sort_buffer块插入到新的索引中；
+</code></pre>
+</li>
+<li><pre><code>**将row_log中的记录应用到新临时表中，应用到最后一个block**；
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>COMMIT：</p>
+<ul>
+<li><strong>升级到EXECLUSIVE-MDL锁，禁止事务读写</strong>；</li>
+<li>重做row_log中最后一部分的增量；</li>
+<li>提交事务，写InnoDB redo日志；</li>
+<li>更新InnoDB的数据字典表；</li>
+<li>修改统计信息；</li>
+<li><strong>RENAME临时的ibd和frm文件</strong>；</li>
+<li>执行变更完成。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>概括<br>row_log记录了DDL执行期间产生的DML操作，这保证了变更期间表的并发性，通过以上过程可以看出在EXECUTE(执行)阶段表允许读写操作，操作记录在row_log中，在最后阶段应用到新表当中，保证了数据的完整性。<h2 id="原生Online-DDL的局限"><a href="#原生Online-DDL的局限" class="headerlink" title="原生Online DDL的局限"></a>原生Online DDL的局限</h2>原生Online DDL 实际上是在存储引擎层执行的，对存储引擎的类型有一定的要求，并且目前并不是所有的DDL都执行oneline DDL。某些DDL不支持online DDL，会出现较大的代价。<br>实际生产环境中，更多的是希望有一种方式能够适配所有存储引擎和DML和所有的DDL能够并发执行，所有业界一般是更多使用例如gh-host等中间件来实现服务器层的并发DDL。</li>
+</ul>
+<h1 id="gh-host执行DDL"><a href="#gh-host执行DDL" class="headerlink" title="gh-host执行DDL"></a>gh-host执行DDL</h1><p>  由于原生online DDL支持的DDL有限「限制了存储引擎，DDL类型等」，所以业界一般使用的是gh-host工具「实现服务器层的DML和DDL并发，使用所有的DDL和存储引擎」执行DDL</p>
+<h2 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h2><p>  <img src="https://github.com/maidongcao/img/blob/master/online_ddl/gh-ost-general-flow.png?raw=true" alt="gh-host"><br>      1. Gh-ost 在主库和从库建立临时表「ghost table」<br>      2. Gh-ost 消费从库的binlog「公司内部消费的是主库的binlog」<br>      3. 把binlog回放临时表，在此过程中也同时拷贝原表到从表「原生online dll是先全量拷贝再同步增量」<br>      4. cut-over：临时表和原表切换「此才会有阻塞」</p>
+<h2 id="cut-over-阻塞过程"><a href="#cut-over-阻塞过程" class="headerlink" title="cut-over 阻塞过程"></a>cut-over 阻塞过程</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>clinet session 1</th>
+<th>gh-ost session 1</th>
+<th>clinet session 2</th>
+<th>gh-ost session 2</th>
+<th>clinet session 3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Time 1</td>
+<td>正常 DML</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Time 2</td>
+<td></td>
+<td>创建del表「回滚使用」锁原表锁del表</td>
+<td>SELECT &amp; DML 等待gh-ost session 1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Time 3</td>
+<td></td>
+<td></td>
+<td></td>
+<td>执行rename表交换</td>
+<td>SELECT &amp; DML 等待gh-ost session 1 锁</td>
+</tr>
+<tr>
+<td>Time 4</td>
+<td></td>
+<td>检测到gh-ost session 2 的rename sql，释放锁</td>
+<td>等待锁</td>
+<td>执行rename，完成表交换</td>
+<td>等待锁</td>
+</tr>
+<tr>
+<td>Time 5</td>
+<td></td>
+<td></td>
+<td>正常执行</td>
+<td></td>
+<td>正常执行</td>
+</tr>
+</tbody></table>
+<ol>
+<li>client session 1 执行DML，此时gh-ost尝试加表锁；如果client session 1的DML是大事务，会加锁等待，3s后未加锁成功，会DDL执行失败。</li>
+<li>创建del表、锁原表和锁del表，这个步骤会加表锁</li>
+<li>提交rename表操作和正常流量的DML都会等待步骤2的表锁</li>
+<li>步骤2释放锁的时机是检测到gh-ost有提交rename sql。此时释放表锁，rename sql优先持有表锁执行rename 操作，完成表交换「执行时间很短」。</li>
+<li>在步骤4「rename」执行过程中，其他的DML都在等待表锁，一旦rename完成，会继续获取锁继续执行DML操作</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>cut-over过程中，主要的耗时在gh-ost锁原表。此时如果正常的DML有大事务，会导致无法获取到表锁，导致失败</li>
+<li>gh-ost获取表锁前有大事务，不会影响正常的DML。因为此时gh-ost未获取锁。</li>
+<li>一旦gh-ost获取表锁，后续的DML都会锁等待，直到rename「获取锁优先级最高」完成才执行<h1 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h1></li>
+<li> online DDL下进行新增列会存在短暂的锁表。对于大表的表记录修改，建议在低峰期操作。</li>
+<li> 执行DDL前，先评估下DDL可能对业务产生的影响，确认影响方案，和DBA确认阻塞的影响范围。</li>
+<li>由于执行alter table 是需要拷贝数据的，建议多个alter table 合并成一条。</li>
+<li>执行DDL前需要保证有足够的磁盘空间</li>
+</ol>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+            <script>
+              if (window.mermaid) {
+                mermaid.initialize({theme: 'forest'});
+              }
+        </script>
+        <!-- <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span> -->
+        <!-- Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p> -->
+</footer>
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/blog/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/blog/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
